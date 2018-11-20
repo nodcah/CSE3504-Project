@@ -120,3 +120,86 @@ void printMatrix(const TMatrix *m)
         printf("\n");
     }
 }
+
+
+/* Merge matrices a and b into dst according to sort. */
+TMatrix* merge(TMatrix *dst, TMatrix *a, TMatrix *b, unsigned int row, int (*sort)(TElement a, TElement b))
+{
+    // Sanity checks.
+    if (dst == NULL) {
+        return dst;
+    } else if (a == NULL) {
+        // Assign dst to b if compatible.
+        if (dst->nrow == b->nrow && dst->ncol == b->ncol) {
+            *dst = *b;
+        }
+        return dst;
+    } else if (b == NULL) {
+        // Assign dst to a if compatible.
+        if (dst->nrow == a->nrow && dst->ncol == a->ncol) {
+            *dst = *a;
+        }
+        return dst;
+    } else if (dst->nrow != a->nrow || dst->nrow != b->nrow) {
+        return dst;     // Unequal rows. Do nothing.
+    } else if (dst->ncol != a->ncol + b->ncol) {
+        return dst;     // Columns do not sum to be the number in dst. Do nothing.
+    }
+
+    unsigned int idx_a = 0;
+    unsigned int idx_b = 0;
+    for (unsigned int i = 0; i < dst->ncol; i++) {
+        if (idx_a >= a->ncol) {
+            // We've already inserted all of matrix a. Simply add matrix b.
+            for (unsigned int r = 0; r < dst->nrow; r++)
+                dst->data[r][i] = b->data[r][idx_b];
+            idx_b++;
+        } else if (idx_b >= b->ncol) {
+            // We've already inserted all of matrix b. Simply add matrix a.
+            for (unsigned int r = 0; r < dst->nrow; r++)
+                dst->data[r][i] = a->data[r][idx_a];
+            idx_a++;
+        } else {
+            if (sort(a->data[row][idx_a], b->data[row][idx_b])) {
+                // Column in a comes before column in b.
+                for (unsigned int r = 0; r < dst->nrow; r++)
+                    dst->data[r][i] = a->data[r][idx_a];
+                idx_a++;
+            } else {
+                // Column in b comes before column in a.
+                for (unsigned int r = 0; r < dst->nrow; r++)
+                    dst->data[r][i] = b->data[r][idx_b];
+                idx_b++;
+            }
+        }
+    }
+
+    return dst;
+}
+
+
+TMatrix* mergesort_row(TMatrix *m, unsigned int row, int (*sort)(TElement a, TElement b))
+{
+    // Cannot sort a NULL Matrix, a matrix with 0 rows, an invalid row selection, or a matrix with 1 column or less.
+    if (m == NULL || m->nrow == 0 || row >= m->nrow || m->ncol < 2)
+        return m;
+
+    unsigned int mid = m->ncol / 2;     // Find the midpoint.
+    TMatrix *a = newMatrix(m->nrow, mid);
+    TMatrix *b = newMatrix(m->nrow, m->ncol - mid);
+    // Populate each of the submatrices.
+    for (unsigned int i = 0; i < a->nrow; i++)
+        for (unsigned int j = 0; j < a->ncol; j++)
+            a->data[i][j] = m->data[i][j];
+    for (unsigned int i = 0; i < b->nrow; i++)
+        for (unsigned int j = 0; j < b->ncol; j++)
+            b->data[i][j] = m->data[i][mid+j];
+    // Recursively mergesort.
+    mergesort_row(a, row, sort);
+    mergesort_row(b, row, sort);
+    merge(m, a, b, row, sort);
+
+    freeMatrix(a);
+    freeMatrix(b);
+    return m;
+}
