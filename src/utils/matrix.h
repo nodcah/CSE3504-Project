@@ -33,6 +33,14 @@ TMatrix* mulMatrices(const TMatrix *m, const TMatrix *n);
  */
 TMatrix* transposeMatrix(const TMatrix *m);
 
+/* Prints matrix m to stdout. */
 void printMatrix(const TMatrix *m);
+
+/* Mergesorts matrix m through ordering rows by the sorting function sort.
+ * m - Matrix to sort.
+ * row - Row to sort matrix by.
+ * sort - Function to determine precedence.
+ */
+TMatrix* mergesort_row(TMatrix *m, unsigned int row, void *sort);
 
 #endif
