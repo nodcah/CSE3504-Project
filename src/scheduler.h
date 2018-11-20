@@ -21,4 +21,10 @@ TMatrix* lrjf(TMatrix *c);
  */
 TMatrix* heuristic(TMatrix *c);
 
+/* Takes a thread cost matrix c and calculates the cost of actually executing the program
+ * c - (4, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
+ * Returns c with execution times in 4th row.
+ */
+TMatrix* calculateCost(TMatrix *c);
+
 #endif
