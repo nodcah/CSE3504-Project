@@ -1,12 +1,15 @@
 #ifndef __MATRIX_H__
 #define __MATRIX_H__
 
-#define TElement    double
+#define TElement unsigned int 
+
+#define max(a,b) ((a)>(b))?(a):(b)
 
 // Define a Matrix structure for representing arbitrary size matrices.
 typedef struct Matrix {
     unsigned int nrow;      // Number of columns.
     unsigned int ncol;      // Number of rows.
+    unsigned int maxtime;   // Max finish time of any thread.
     TElement **data;        // 2D array of elements.
 } TMatrix;
 
@@ -37,6 +40,11 @@ TMatrix* transposeMatrix(const TMatrix *m);
 
 /* Prints matrix m to stdout. */
 void printMatrix(const TMatrix *m);
+
+/*  Creates copy of matrix m 
+ *  returns a newly-allocated matrix copy
+ */
+TMatrix* copyMatrix(const TMatrix *m);
 
 /* Mergesorts matrix m through ordering rows by the sorting function sort.
  * m - Matrix to sort.

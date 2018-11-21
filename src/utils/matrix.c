@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-
 #include "matrix.h"
 
 
@@ -29,9 +28,11 @@ TMatrix* newMatrix(unsigned int nrow, unsigned int ncol)
     }
 
     // Initialize the matrix and return it.
+    m->maxtime = 0;
     m->nrow = nrow;
     m->ncol = ncol;
     m->data = data;
+
     return m;
 }
 
@@ -113,12 +114,23 @@ TMatrix* transposeMatrix(const TMatrix *m)
 
 void printMatrix(const TMatrix *m)
 {
+    printf("\n");
     for (unsigned int i = 0; i < m->nrow; i++) {
         for (unsigned int j = 0; j < m->ncol; j++) {
-            printf("%f ", m->data[i][j]);
+            printf("%u ", m->data[i][j]);
         }
         printf("\n");
     }
+}
+
+TMatrix* copyMatrix(const TMatrix *m) {
+    TMatrix* ret = newMatrix(m->nrow, m->ncol);
+    for (unsigned int i = 0; i < m->nrow; i++) {
+        for (unsigned int j = 0; j < m->ncol; j++) {
+            ret->data[i][j] = m->data[i][j];
+        }
+    }
+    return ret;
 }
 
 
