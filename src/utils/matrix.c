@@ -123,6 +123,7 @@ void printMatrix(const TMatrix *m)
     }
 }
 
+
 TMatrix* copyMatrix(const TMatrix *m) {
     TMatrix* ret = newMatrix(m->nrow, m->ncol);
     for (unsigned int i = 0; i < m->nrow; i++) {

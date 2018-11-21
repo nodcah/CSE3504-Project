@@ -65,8 +65,10 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-int sortinc(TElement a,TElement b){ return a<b; }
-int sortdec(TElement a,TElement b){ return a>b; }
+
+int sortinc(TElement a,TElement b) { return a<b; }
+int sortdec(TElement a,TElement b) { return a>b; }
+
 
 /* Takes a thread cost matrix c and sorts it using the FCFS scheduling algorithm.
  * c - (3, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
@@ -78,6 +80,7 @@ TMatrix* fcfs(TMatrix *c){
     return ret;
 }
 
+
 /* Takes a thread cost matrix c and sorts it using the LRJF scheduling algorithm.
  * c - (3, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
  * Returns c scheduled by LRJF.
@@ -87,6 +90,7 @@ TMatrix* lrjf(TMatrix *c){
     mergesort_row(ret, 2, &sortdec);  // sorts such that row 2 is decreasing
     return ret;
 }
+
 
 /* Takes a thread cost matrix c and sorts it using the heuristic scheduling algorithm.
  * c - (3, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
@@ -101,7 +105,8 @@ TMatrix* heuristic(TMatrix *c){
     for(int i=0; i<ret->ncol-1; i++) {
         if (ret->data[0][i]>ret->data[0][i+1]) isFCFS = 0;
     }
-    if(isFCFS) return ret;
+    if (isFCFS)
+        return ret;
 
     // Step 3 and 4: use bubble sort but with FCFS vs LRJF costs
     int numSwaps = 0;
