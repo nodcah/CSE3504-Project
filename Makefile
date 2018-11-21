@@ -7,7 +7,7 @@ OBJ:=$(BIN)obj/
 DIR_LIST:=$(SRC) $(BIN) $(OBJ)
 VPATH:=$(SRC) $(SRC)utils/
 CC:=gcc
-CFLAGS?= -Wall -std=c99 -pthread -g
+CFLAGS?= -Wall -std=c99 -pthread -O2 -g
 MKDIR_P:=mkdir -p
 
 # Variables for compiling the report

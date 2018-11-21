@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* scheduler.c
  * Main file for running the scheduling program for LRJF, FCFS or heuristically.
  * Input: Either filename of .dat matrix file or # of threads (between 1-200) for random values
@@ -5,6 +6,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "scheduler.h"
 
@@ -59,7 +61,7 @@ int main(int argc, char* argv[]) {
  * Returns c scheduled by FCFS.
  */
 TMatrix* fcfs(TMatrix *c){
-
+    
 }
 
 /* Takes a thread cost matrix c and sorts it using the LRJF scheduling algorithm.

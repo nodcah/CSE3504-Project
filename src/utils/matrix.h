@@ -16,6 +16,7 @@ typedef struct Matrix {
  * Will return NULL if it was unable to allocate memory.
  */
 TMatrix* newMatrix(unsigned int nrow, unsigned int ncol);
+
 /* Frees a previously allocated TMatrix. */
 void freeMatrix(TMatrix *m);
 
@@ -23,6 +24,7 @@ void freeMatrix(TMatrix *m);
  * Will return NULL if it was unable to allocate memory for the new matrix or if the dimensions of m and n are incompatible.
  */
 TMatrix* addMatrices(const TMatrix *m, const TMatrix *n);
+
 /* Creates a matrix that is the product mn.
  * Will return NULL if it was unable to allocate memory for the new matrix or if the dimensions of m and n are incompatible.
  */
@@ -39,8 +41,8 @@ void printMatrix(const TMatrix *m);
 /* Mergesorts matrix m through ordering rows by the sorting function sort.
  * m - Matrix to sort.
  * row - Row to sort matrix by.
- * sort - Function to determine precedence.
+ * sort - Boolean function to determine precedence. Should be of the form: int sort(TElement a, TElement b);
  */
-TMatrix* mergesort_row(TMatrix *m, unsigned int row, void *sort);
+TMatrix* mergesort_row(TMatrix *m, unsigned int row, int (*sort)(TElement a, TElement b));
 
 #endif

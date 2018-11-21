@@ -1,3 +1,6 @@
+# Skip bin directory
+bin/
+
 # Prerequisites
 *.d
 
