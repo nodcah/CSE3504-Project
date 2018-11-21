@@ -74,7 +74,7 @@ int sortdec(TElement a,TElement b) { return a>b; }
  * c - (3, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
  * Returns c scheduled by FCFS.
  */
-TMatrix* fcfs(TMatrix *c){
+TMatrix* fcfs(const TMatrix *c){
     TMatrix* ret = copyMatrix(c);
     mergesort_row(ret, 0, &sortinc);  // sorts such that row 0 is in increasing order
     return ret;
@@ -85,7 +85,7 @@ TMatrix* fcfs(TMatrix *c){
  * c - (3, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
  * Returns c scheduled by LRJF.
  */
-TMatrix* lrjf(TMatrix *c){
+TMatrix* lrjf(const TMatrix *c){
     TMatrix* ret = copyMatrix(c);
     mergesort_row(ret, 2, &sortdec);  // sorts such that row 2 is decreasing
     return ret;
@@ -96,7 +96,7 @@ TMatrix* lrjf(TMatrix *c){
  * c - (3, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
  * Returns c scheduled by heuristic comparison algorithm.
  */
-TMatrix* heuristic(TMatrix *c){
+TMatrix* heuristic(const TMatrix *c){
     // Step 1: sort by lrjf
     TMatrix* ret = lrjf(c);
 
@@ -131,7 +131,7 @@ TMatrix* heuristic(TMatrix *c){
  * c - (4, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
  * Returns c with execution times in 4th row
  */
-TMatrix* calculateCost(TMatrix *c){
+TMatrix* calculateCost(const TMatrix *c){
     TMatrix* ret = newMatrix(4, c->ncol);  // return matrix
 
     // Calculate run time cost in order of columns
