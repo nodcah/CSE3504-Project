@@ -3,7 +3,6 @@
  * Input: Either filename of .dat matrix file or # of threads (between 1-200) for random values
  * Output: Prints out run time of using FCFS, LRJF, and the hueristic approach
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,7 +10,7 @@
 #include "scheduler.h"
 
 int main(int argc, char* argv[]) {
-    TMatrix* m=NULL;  // Input matrix
+    TMatrix* m = NULL;  // Input matrix
 
     // Parse input
     if (argc!=2){
@@ -30,7 +29,7 @@ int main(int argc, char* argv[]) {
         fclose(mFile);
     }
     // Otherwise, make random matrix of values based on nThreads
-    else{
+    else {
         if (nThreads<1 || nThreads>200){
             fprintf(stderr, "Please choose a number between 1 and 200\n");   
             exit(2);
@@ -102,25 +101,27 @@ TMatrix* heuristic(const TMatrix *c){
 
     // Step 2: if in FCFS too, then return
     int isFCFS = 1;
-    for(int i=0; i<ret->ncol-1; i++) {
-        if (ret->data[0][i]>ret->data[0][i+1]) isFCFS = 0;
+    for (int i = 0; i < ret->ncol-1; i++) {
+        if (ret->data[0][i] > ret->data[0][i+1]) isFCFS = 0;
     }
     if (isFCFS)
         return ret;
 
     // Step 3 and 4: use bubble sort but with FCFS vs LRJF costs
-    int numSwaps = 0;
+    int numSwaps;
     do {
-        numSwaps=0;
-        for (int i=0; i<ret->ncol-1; i++) {
+        numSwaps = 0;
+        for (int i = 0; i < ret->ncol-1; i++) {
             // Swap if detriment of FCFS outweighs benefit of LRJF
-            if((ret->data[0][i]-ret->data[0][i+1]) > (ret->data[2][i]-ret->data[2][i+1])){
-                for(int j=0; j<3; j++){
-                    TElement temp = ret->data[j][i];
-                    ret->data[j][i] = ret->data[j][i+1];
-                    ret->data[j][i+1] = temp;
+            if (ret->data[0][i] > ret->data[0][i+1]) {
+                if (ret->data[0][i] - ret->data[0][i+1] < ret->data[2][i] - ret->data[2][i+1]) {
+                    for(int j=0; j<3; j++){
+                        TElement temp = ret->data[j][i];
+                        ret->data[j][i] = ret->data[j][i+1];
+                        ret->data[j][i+1] = temp;
+                    }
+                    numSwaps++;
                 }
-                numSwaps++;
             }
         }
     } while (numSwaps!=0);
@@ -133,15 +134,17 @@ TMatrix* heuristic(const TMatrix *c){
  */
 TMatrix* calculateCost(const TMatrix *c){
     TMatrix* ret = newMatrix(4, c->ncol);  // return matrix
+    for (int row = 0; row < c->nrow; row++) {
+        for (int col = 0; col < c->ncol; col++) {
+            ret->data[row][col] = c->data[row][col];
+        }
+    }
 
     // Calculate run time cost in order of columns
-    int startAt=c->data[0][0];  // keeps track of when thread leaves the LASU 
+    int startAt=0;  // keeps track of when thread leaves the LASU 
     for (int col=0; col<ret->ncol; col++){ 
-        for (int row=0; row<3; row++){
-            ret->data[row][col]=c->data[row][col];
-        }
-        startAt = ((max(startAt,c->data[0][col])) + c->data[1][col]);
-        ret->data[3][col] = startAt+c->data[2][col];
+        startAt = max(startAt, ret->data[0][col]) + ret->data[1][col];
+        ret->data[3][col] = startAt + ret->data[2][col];
         if (ret->data[3][col] > ret->maxtime) 
             ret->maxtime = ret->data[3][col];
     }

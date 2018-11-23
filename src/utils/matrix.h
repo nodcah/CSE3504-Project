@@ -3,7 +3,7 @@
 
 #define TElement unsigned int 
 
-#define max(a,b) ((a)>(b))?(a):(b)
+#define max(a,b) (((a)>(b))?(a):(b))
 
 // Define a Matrix structure for representing arbitrary size matrices.
 typedef struct Matrix {
