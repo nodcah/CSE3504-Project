@@ -1,6 +1,7 @@
 %++++++++++++++++++++++++++++++++++++++++
 % Don't modify this section unless you know what you're doing!
 \documentclass[letterpaper,12pt]{article}
+\usepackage{verbatim}
 \usepackage{authblk}  % makes authors section look nice
 \usepackage{tabularx} % extra features for tabular environment
 \usepackage{amsmath}  % improve math presentation
@@ -42,7 +43,14 @@ function LRJF(Matrix c):
 
 To test the code, matrices of random numbers were generated based on the input conditions.
 The inputs to this implementation were the number of threads to be simulated and the equality conditions.
-The code then runs both algorithms (FCFS and LRJF) on the randomized matrix and outputs the total time each scheduling method would take to complete all threads. We also calculate the time that each individual thread finishes (the fourth row in the output matrices). An example usage of our implementation is as follows:
+The code then runs both algorithms (FCFS and LRJF) on the randomized matrix and outputs the total time each scheduling method would take to complete all threads. 
+We also calculate the time that each individual thread finishes (the fourth row in the output matrices). 
+
+Our main code that handles the input arguments is found in \texttt{scheduler.c}.
+Here, we will also find the FCFS and LRJF functions that are found in pseudocode above.
+However, the implementation of the \texttt{src/mergesort\_row} function, or any other matrix functions, are found in \texttt{src/utils/matrix.c}.
+An example usage of our implementation is seen below. 
+The first matrix displayed is the input matrix, then the next two are the FCFS and LRJF schedules, respectively.
 
 \begin{verbatim}
 $ ./scheduler 5 = . .
@@ -109,3 +117,4 @@ Ammar, Reda \& A. Fergany, Tahany \& I. El-Desouky, Ali \& Hefeeda, Mohamed. (19
 
 
 \end{document}
+
