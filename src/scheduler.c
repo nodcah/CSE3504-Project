@@ -49,18 +49,19 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    printf("Running tests on matrix: \n");
+    printf("Running tests for %d threads and configuration %s %s %s\n", nThreads, 
+            ((plj_eq)?"=":"."),((lasu_eq)?"=":"."), ((rj_eq)?"=":"."));
     printMatrix(m);  
-    printf("===============================\n");
+    printf("==========================================\n");
 
     TMatrix* m_fcfs = fcfs(m);
     TMatrix* m_lrjf = lrjf(m);
     TMatrix* m_heuristic = heuristic(m);
 
-    TMatrix* m_fcfs_cost = calculateCost(m_fcfs); //printMatrix(m_fcfs_cost);
-    TMatrix* m_lrjf_cost = calculateCost(m_lrjf); //printMatrix(m_lrjf_cost);
-    TMatrix* m_heuristic_cost = calculateCost(m_heuristic); //printMatrix(m_heuristic_cost);
-    //printf("===============================\n");
+    TMatrix* m_fcfs_cost = calculateCost(m_fcfs); printMatrix(m_fcfs_cost); printf("\n");
+    TMatrix* m_lrjf_cost = calculateCost(m_lrjf); printMatrix(m_lrjf_cost);printf("\n");
+    TMatrix* m_heuristic_cost = calculateCost(m_heuristic); printMatrix(m_heuristic_cost);
+    printf("==========================================\n");
 
     printf("FCFS Total Time: %d\n", m_fcfs_cost->maxtime);
     printf("LRJF Total Time: %d\n", m_lrjf_cost->maxtime);

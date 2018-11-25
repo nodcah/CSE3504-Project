@@ -1,0 +1,111 @@
+%++++++++++++++++++++++++++++++++++++++++
+% Don't modify this section unless you know what you're doing!
+\documentclass[letterpaper,12pt]{article}
+\usepackage{authblk}  % makes authors section look nice
+\usepackage{tabularx} % extra features for tabular environment
+\usepackage{amsmath}  % improve math presentation
+\usepackage{graphicx} % takes care of graphic including machinery
+\usepackage[margin=1in,letterpaper]{geometry} % decreases margins
+\usepackage{cite} % takes care of citations
+%++++++++++++++++++++++++++++++++++++++++
+
+
+\begin{document}
+
+\title{CSE 3504  Project 1}
+\author[1]{Jack Davis}
+\author[1]{Noah Del Coro}
+\affil[1]{University of Connecticut, Electrical and Computer Engineering, Computer Science and Engineering}
+\date{November 27th, 2018}
+\maketitle
+
+\section{Introduction}
+Intro
+
+
+\section{Methods}
+The LRJF and FCFS algorithms were both implemented by sorting the matrix (list of threads) by either the first row or third row. 
+For LRJF, we sorted the third row (remaining job time) largest to smallest.
+For the FCFS, we sorted the first row (pre-lock job time) from smallest to largest.
+The sorting algorithm we used is merge sort, which is implemented recursively. 
+The psuedocode for FCFS and LRJF is seen below.
+\begin{verbatim}
+function FCFS(Matrix c):
+    return mergesort_row(c, row=0, increasing)
+    
+function LRJF(Matrix c):
+    return mergesort_row(c, row=2, decreasing)
+\end{verbatim}
+
+
+\section{Results}
+
+To test the code, matrices of random numbers were generated based on the input conditions.
+The inputs to this implementation were the number of threads to be simulated and the equality conditions.
+The code then runs both algorithms (FCFS and LRJF) on the randomized matrix and outputs the total time each scheduling method would take to complete all threads. We also calculate the time that each individual thread finishes (the fourth row in the output matrices). An example usage of our implementation is as follows:
+
+\begin{verbatim}
+$ ./scheduler 5 = . .
+Running tests for 5 threads and configuration = . .
+58	58	58	58	58	
+52	38	43	95	14	
+27	8	34	43	36	
+==========================================
+58	58	58	58	58	
+14	95	43	38	52	
+36	43	34	8	27	
+108	210	244	256	327	
+
+58	58	58	58	58	
+95	14	43	52	38	
+43	36	34	27	8	
+196	203	244	289	308
+==========================================
+FCFS Total Time: 327
+LRJF Total Time: 308
+\end{verbatim}
+
+\begin{table}[ht]
+\begin{center}
+\caption{Run times given random thread lengths under certain conditions. All run times are in arbitrary time units. Tests run with only 5 threads.}
+\begin{tabular}{|c|ccc|} 
+\hline
+\multicolumn{1}{|c|}{$(PLJ, LASU, RJ)$} &
+\multicolumn{1}{c}{$FCFS$} &
+\multicolumn{1}{c}{$LRJF$} &
+\multicolumn{1}{c|}{$Heuristic$} \\
+\hline
+= = = & 313 & 313 & 313 \\
+= = .  & 355 & 278 & 278 \\
+= . = & 316 & 316 & 316 \\
+= . . & 358 & 281 & 281 \\
+. = = & 340 & 395 & 395 \\
+. . = & 327 & 398 & 398 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+$TODO$ Talk about finding an optimal solution here.  
+
+
+\section{Conclusions}
+Here you briefly summarize your findings.
+
+%++++++++++++++++++++++++++++++++++++++++
+% References section will be created automatically 
+% with inclusion of "thebibliography" environment
+% as it shown below. See text starting with line
+% \begin{thebibliography}{99}
+% Note: with this approach it is YOUR responsibility to put them in order
+% of appearance.
+
+\begin{thebibliography}{99}
+
+\bibitem{paper}
+Ammar, Reda \& A. Fergany, Tahany \& I. El-Desouky, Ali \& Hefeeda, Mohamed. (1996). Heuristic scheduling algorithms to access the critical section in Shared Memory Environment. 
+
+\end{thebibliography}
+
+
+\end{document}
