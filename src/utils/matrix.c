@@ -114,7 +114,6 @@ TMatrix* transposeMatrix(const TMatrix *m)
 
 void printMatrix(const TMatrix *m)
 {
-    printf("\n");
     for (unsigned int i = 0; i < m->nrow; i++) {
         for (unsigned int j = 0; j < m->ncol; j++) {
             printf("%u\t", m->data[i][j]);
