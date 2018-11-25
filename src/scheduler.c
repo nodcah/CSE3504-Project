@@ -1,6 +1,6 @@
 /* scheduler.c
  * Main file for running the scheduling program for LRJF, FCFS or heuristically.
- * Input: Either filename of .dat matrix file or # of threads (between 1-200) for random values
+ * Input: # of threads (between 1-200) for random values and optional conditions on the values
  * Output: Prints out run time of using FCFS, LRJF, and the hueristic approach
  */
 #include <stdio.h>
@@ -13,33 +13,36 @@ int main(int argc, char* argv[]) {
     TMatrix* m = NULL;  // Input matrix
 
     // Parse input
-    if (argc!=2){
-        printf("Usage: scheduler [numThreads|pathToMatrix]\n");
+    if (argc<2 || argc>4){
+        printf("Usage: scheduler numThreads [.|=] [.|=]\n");
         exit(0);
     }
     int nThreads = 1;
-    int isNum = sscanf(argv[1], "%d", &nThreads);  // isNum>0 if argument is number
+    sscanf(argv[1], "%d", &nThreads);  // isNum>0 if argument is number
+    int plj_eq = 0;  // if the Pre Lock Job times should be equal
+    int rj_eq = 0;  // if the Remaining Job times should be equal
 
-    // If filetype given, read matrix from file
-    if(!isNum) {  
-        FILE* mFile = fopen(argv[1], "r");
-        // TODO
-        fprintf(stderr, "Please enter a number\n");
-        exit(1);
-        fclose(mFile);
+    // If there are conditions, note them
+    if (argc==4){
+        if(!strcmp(argv[2],"=")) rj_eq=1;
+        if(!strcmp(argv[3],"=")) plj_eq=1;
     }
+    printf("rj: %d, plj: %d", rj_eq, plj_eq);
+
     // Otherwise, make random matrix of values based on nThreads
-    else {
-        if (nThreads<1 || nThreads>200){
-            fprintf(stderr, "Please choose a number between 1 and 200\n");   
-            exit(2);
-        }
-        srand(time(NULL));
-        m = newMatrix(3, nThreads);  // 3 rows, nThreads columns
-        for (int row = 0; row < m->nrow; row++){
-            for (int col = 0; col < m->ncol; col++) {
-                m->data[row][col] = (TElement)(rand()%100+1); // Random number 1 to 100
-            }
+    if (nThreads<1 || nThreads>200){
+        fprintf(stderr, "Please choose a number between 1 and 200\n");   
+        exit(2);
+    }
+    srand(time(NULL));
+    m = newMatrix(3, nThreads);  // 3 rows, nThreads columns
+    TElement temp_plj = (rand()%100);
+    TElement temp_rj = (rand()%100);
+    for (int row = 0; row < m->nrow; row++){
+        for (int col = 0; col < m->ncol; col++) {
+            m->data[row][col] = (TElement)(rand()%100);  // Random number 1 to 100
+            if (plj_eq && row==0) m->data[row][col] = temp_plj;  // Same plj
+            if (rj_eq && row==2) m->data[row][col] = temp_rj;  // Same rj
         }
     }
 
