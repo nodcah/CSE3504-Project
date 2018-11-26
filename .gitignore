@@ -1,6 +1,10 @@
 # Skip bin directory
 bin/
 
+latex/*.aux
+latex/*.log
+latex/*.pdf
+
 # Prerequisites
 *.d
 
