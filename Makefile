@@ -12,9 +12,10 @@ MKDIR_P:=mkdir -p
 
 # Variables for compiling the report
 REPORT:=report.pdf
+TEX_FILE:=main.tex
 TEX_DIR:=latex/
 TEX:=pdflatex
-TEXFLAGS?=
+TEXFLAGS?=--jobname=report --output-dir=$(TEX_DIR)
 
 .PHONY: all directories report clean
 
@@ -35,12 +36,10 @@ report: $(REPORT)
 
 # Generally LaTeX must be compiled at least twice in order to prepare a final document
 $(REPORT):
-	for i in {1..2}
-	do
-		$(TEX) $(TEXFLAGS) $(TEX_DIR)$@
+	for i in {1..2}; do \
+		$(TEX) $(TEXFLAGS) $(TEX_DIR)$(TEX_FILE); \
 	done
 
 clean:
 	rm -f $(addprefix $(OBJ), $(OBJS))
 	rm -f $(addprefix $(BIN), $(TARGET))
-	rm -f $(REPORT)
