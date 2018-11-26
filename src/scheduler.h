@@ -15,11 +15,13 @@ TMatrix* fcfs(const TMatrix *c);
  */
 TMatrix* lrjf(const TMatrix *c);
 
-/* Takes a thread cost matrix c and sorts it using the heuristic scheduling algorithm.
+/* Takes a thread cost matrix c and sorts it using the comparison scheduling algorithm.
  * c - (3, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
- * Returns c scheduled by heuristic comparison algorithm.
+ * Returns c scheduled by comparison algorithm.
  */
-TMatrix* heuristic(const TMatrix *c);
+TMatrix* comparison(const TMatrix *c);
+
+TMatrix* adjustment(const TMatrix *c);
 
 /* Takes a thread cost matrix c and calculates the cost of actually executing the program
  * c - (4, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.

@@ -95,7 +95,7 @@ TMatrix* lrjf(const TMatrix *c){
  * c - (3, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
  * Returns c scheduled by heuristic comparison algorithm.
  */
-TMatrix* heuristic(const TMatrix *c){
+TMatrix* comparison(const TMatrix *c){
     // Step 1: sort by lrjf
     TMatrix* ret = lrjf(c);
 
@@ -127,6 +127,13 @@ TMatrix* heuristic(const TMatrix *c){
     } while (numSwaps!=0);
     return ret;
 }
+
+
+TMatrix* adjustment(const TMatrix *c)
+{
+    return NULL;
+}
+
 
 /* Takes a thread cost matrix c and calculates the cost of actually executing the program
  * c - (4, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
