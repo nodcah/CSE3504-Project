@@ -21,7 +21,17 @@
 \maketitle
 
 \section{Introduction}
-Intro
+Quite often, it is desirable to improve the performance of a given software by parallelizing tasks through use of threads.
+While this modification alone can drastically improve software performance, it is still possible to further improve execution time efficiency.
+It is very likely that threads will require access to shared data.
+In order to prevent access collisions between threads, shared data is typically locked through a mutex.
+Throughout this paper, we will refer to the code that accesses shared data as a Locked Access Shared Unit (LASU).
+Because only one thread may access a LASU at a time, threads requesting access must sleep and wait for their turn.
+Through use of clever scheduling, one may improve the performance of their software further by minimizing the amount of time threads spend waiting to access a LASU.
+By taking into account the execution time of the Pre-lock Job (PLJ), the LASU, and the Remaining Job (RJ), one finds that the majority of cases are simple to resolve.
+Two crucial algorithms for determining an efficient schedule include the First-Come First-Served (FCFS) algorithm, and the Longest-Remaining Job First (LRJF) algorithm.
+These algorithms schedule threads by shortest PLJ first and longest RJ first, respectively.
+In this paper, the authors discuss their implementation of these two algorithms and their findings on optimal solutions for various cases of PLJ, LASU, and RJ equality and inequality between threads.
 
 
 \section{Methods}
@@ -40,7 +50,6 @@ function LRJF(Matrix c):
 
 
 \section{Results}
-
 To test the code, matrices of random numbers were generated based on the input conditions.
 The inputs to this implementation were the number of threads to be simulated and the equality conditions.
 The code then runs both algorithms (FCFS and LRJF) on the randomized matrix and outputs the total time each scheduling method would take to complete all threads. 
@@ -76,19 +85,18 @@ LRJF Total Time: 308
 \begin{table}[ht]
 \begin{center}
 \caption{Run times given random thread lengths under certain conditions. All run times are in arbitrary time units. Tests run with only 5 threads.}
-\begin{tabular}{|c|ccc|} 
+\begin{tabular}{|c|cc|} 
 \hline
 \multicolumn{1}{|c|}{$(PLJ, LASU, RJ)$} &
 \multicolumn{1}{c}{$FCFS$} &
-\multicolumn{1}{c}{$LRJF$} &
-\multicolumn{1}{c|}{$Heuristic$} \\
+\multicolumn{1}{c|}{$LRJF$} \\
 \hline
-= = = & 313 & 313 & 313 \\
-= = .  & 355 & 278 & 278 \\
-= . = & 316 & 316 & 316 \\
-= . . & 358 & 281 & 281 \\
-. = = & 340 & 395 & 395 \\
-. . = & 327 & 398 & 398 \\
+= = = & 313 & 313 \\
+= = .  & 355 & 278 \\
+= . = & 316 & 316 \\
+= . . & 358 & 281 \\
+. = = & 340 & 395 \\
+. . = & 327 & 398 \\
 \hline
 \end{tabular}
 \end{center}
