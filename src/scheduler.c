@@ -1,7 +1,7 @@
 /* scheduler.c
- * Main file for running the scheduling program for LRJF, FCFS or heuristically.
+ * Main file for running the scheduling program for LRJF or  FCFS.
  * Input: # of threads (between 1-200) for random values and optional conditions on the values
- * Output: Prints out run time of using FCFS, LRJF, and the hueristic approach
+ * Output: Prints out run time of using FCFS and LRJF
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,16 +56,13 @@ int main(int argc, char* argv[]) {
 
     TMatrix* m_fcfs = fcfs(m);
     TMatrix* m_lrjf = lrjf(m);
-    TMatrix* m_heuristic = comparison(m);
 
     TMatrix* m_fcfs_cost = calculateCost(m_fcfs); printMatrix(m_fcfs_cost); printf("\n");
     TMatrix* m_lrjf_cost = calculateCost(m_lrjf); printMatrix(m_lrjf_cost);printf("\n");
-    TMatrix* m_heuristic_cost = calculateCost(m_heuristic); printMatrix(m_heuristic_cost);
     printf("==========================================\n");
 
     printf("FCFS Total Time: %d\n", m_fcfs_cost->maxtime);
     printf("LRJF Total Time: %d\n", m_lrjf_cost->maxtime);
-    printf("Heuristic Total Time: %d\n", m_heuristic_cost->maxtime);
     printf("\n");
 
     return 0;
@@ -95,50 +92,6 @@ TMatrix* lrjf(const TMatrix *c){
     TMatrix* ret = copyMatrix(c);
     mergesort_row(ret, 2, &sortdec);  // sorts such that row 2 is decreasing
     return ret;
-}
-
-
-/* Takes a thread cost matrix c and sorts it using the heuristic scheduling algorithm.
- * c - (3, n) Matrix representing PLJ, LASU, and RJ costs. n is the number of threads.
- * Returns c scheduled by heuristic comparison algorithm.
- */
-TMatrix* comparison(const TMatrix *c){
-    // Step 1: sort by lrjf
-    TMatrix* ret = lrjf(c);
-
-    // Step 2: if in FCFS too, then return
-    int isFCFS = 1;
-    for (int i = 0; i < ret->ncol-1; i++) {
-        if (ret->data[0][i] > ret->data[0][i+1]) isFCFS = 0;
-    }
-    if (isFCFS)
-        return ret;
-
-    // Step 3 and 4: use bubble sort but with FCFS vs LRJF costs
-    int numSwaps;
-    do {
-        numSwaps = 0;
-        for (int i = 0; i < ret->ncol-1; i++) {
-            // Swap if detriment of FCFS outweighs benefit of LRJF
-            if (ret->data[0][i] > ret->data[0][i+1]) {
-                if (ret->data[0][i] - ret->data[0][i+1] < ret->data[2][i] - ret->data[2][i+1]) {
-                    for(int j=0; j<3; j++){
-                        TElement temp = ret->data[j][i];
-                        ret->data[j][i] = ret->data[j][i+1];
-                        ret->data[j][i+1] = temp;
-                    }
-                    numSwaps++;
-                }
-            }
-        }
-    } while (numSwaps!=0);
-    return ret;
-}
-
-
-TMatrix* adjustment(const TMatrix *c)
-{
-    return NULL;
 }
 
 
