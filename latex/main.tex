@@ -106,7 +106,23 @@ $TODO$ Talk about finding an optimal solution here.
 
 
 \section{Conclusions}
-Here you briefly summarize your findings.
+From the results gathered from the simulations, a few patterns become apparent.
+Firstly, the amount of time spent in the LASU does not have an affect on the most efficient scheduling of the threads.
+The only affect that the LASU execution time has is on the overall execution time of the program.
+The scheduling algorithm then only relies on the state of the PLJ and RJ execution times.
+Namely, whether or not the PLJ execution time is equal across all threads dictates whether or not FCFS should be used, and whether or not the RJ execution time is equal across al threads dictates whether or not LRJF should be used.
+If the PLJ execution time varies between threads, then the FCFS scheduling algorithm should be utilized, as it is more efficient to have a thread with a short PLJ to immediately begin working through its LASU instead of waiting.
+This is because it will be able to process its LASU while the other threads are still working on their PLJ, minimizing time spent idle by the software.
+Conversely, if the RJ execution time varies between threads, then the LRJF scheduling algorithm should be utilized, as it is more efficient to have a thread with a long RJ to begin working as soon as possible, such that the program will not hang on a single thread.
+If the longest remaining job is executed first, it can be pushed to the front of the queue so that other threads may execute their LASU while the longest RJ is processing, minimizing idle time.
+
+If both the PLJ and RJ portions are equal across all threads, the scheduling algorithm used does not matter, as each schedule will produce an equivalent execution time.
+If the PLJ and RJ portions are both unequal across any threads, then more complex algorithms must be utilized to determine the optimal schedule.
+Ultimately, this means that the use of either the FCFS or LRJF scheduling algorithm depends on if \textit{either} the PLJ or the RJ is unequal across threads.
+
+In simpler cases, where it is unlikely that both the PLJ and RJ are unequal across threads, the execution time of these scheduling algorithms is rather fast.
+Although this is a special case, it is very likely to occur in software, especially in circumstances in which threads act as workers upon the same task.
+In these circumstances, threads will have either a similar PLJ or a similar RJ which allows for the use of these scheduling algorithms.
 
 %++++++++++++++++++++++++++++++++++++++++
 % References section will be created automatically 
