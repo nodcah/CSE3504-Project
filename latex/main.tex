@@ -84,6 +84,27 @@ LRJF Total Time: 308
 
 \begin{table}[ht]
 \begin{center}
+\caption{Actual time the scheduling algorithm took given a matrix of threads of difference sizes. The two numbers correspond to FCFS and LRJF, respectively.}
+\begin{tabular}{|c|ccc|} 
+\hline
+\multicolumn{1}{|c|}{$(PLJ, LASU, RJ)$} &
+\multicolumn{1}{c}{5 Threads (ms)} &
+\multicolumn{1}{c}{50 Threads (ms)} &
+\multicolumn{1}{c|}{100 Threads (ms)} \\
+\hline
+= = = & 14, 7 & 52, 42 & 142, 120 \\
+= = . & 22, 11 & 72, 62 & 132, 121 \\
+= . = & 15, 8 & 73, 59 & 133, 115 \\
+= . . & 17, 6 & 74, 62 & 133, 120 \\
+. = = & 17, 6 & 75, 60 & 138, 115 \\
+. . = & 12, 5 & 75, 58 & 136, 116 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[ht]
+\begin{center}
 \caption{Run times given random thread lengths under certain conditions. All run times are in arbitrary time units. Tests run with only 5 threads.}
 \begin{tabular}{|c|cc|} 
 \hline

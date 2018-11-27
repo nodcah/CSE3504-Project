@@ -51,18 +51,21 @@ int main(int argc, char* argv[]) {
 
     printf("Running tests for %d threads and configuration %s %s %s\n", nThreads, 
             ((plj_eq)?"=":"."),((lasu_eq)?"=":"."), ((rj_eq)?"=":"."));
-    printMatrix(m);  
-    printf("==========================================\n");
-
+    //printMatrix(m);  
+    //printf("==========================================\n");
+    
+    clock_t t0 = clock();
     TMatrix* m_fcfs = fcfs(m);
+    clock_t t1 = clock();
     TMatrix* m_lrjf = lrjf(m);
+    clock_t t2 = clock();
 
-    TMatrix* m_fcfs_cost = calculateCost(m_fcfs); printMatrix(m_fcfs_cost); printf("\n");
-    TMatrix* m_lrjf_cost = calculateCost(m_lrjf); printMatrix(m_lrjf_cost);printf("\n");
-    printf("==========================================\n");
+    TMatrix* m_fcfs_cost = calculateCost(m_fcfs); //printMatrix(m_fcfs_cost); printf("\n");
+    TMatrix* m_lrjf_cost = calculateCost(m_lrjf); //printMatrix(m_lrjf_cost);printf("\n");
+    //printf("==========================================\n");
 
-    printf("FCFS Total Time: %d\n", m_fcfs_cost->maxtime);
-    printf("LRJF Total Time: %d\n", m_lrjf_cost->maxtime);
+    printf("FCFS Total Time: %d, Time to schedule the %d threads: %d us\n", m_fcfs_cost->maxtime, nThreads, (int)((double)(t1-t0)/CLOCKS_PER_SEC*1000000));
+    printf("LRJF Total Time: %d, Time to schedule the %d threads: %d us\n", m_lrjf_cost->maxtime, nThreads, (int)((double)(t2-t1)/CLOCKS_PER_SEC*1000000));    
     printf("\n");
 
     return 0;
