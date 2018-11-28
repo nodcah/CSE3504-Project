@@ -6,6 +6,7 @@
 \usepackage{tabularx} % extra features for tabular environment
 \usepackage{amsmath}  % improve math presentation
 \usepackage{graphicx} % takes care of graphic including machinery
+\usepackage[T1]{fontenc}
 \usepackage[margin=1in,letterpaper]{geometry} % decreases margins
 \usepackage{cite} % takes care of citations
 %++++++++++++++++++++++++++++++++++++++++
@@ -14,8 +15,8 @@
 \begin{document}
 
 \title{CSE 3504  Project 1}
-\author[1]{Jack Davis}
-\author[1]{Noah Del Coro}
+\author[1]{Jack Davis \thanks{jonathan.davis@uconn.edu}}
+\author[1]{Noah Del Coro \thanks{noah.del\_coro@uconn.edu}}
 \affil[1]{University of Connecticut, Electrical and Computer Engineering, Computer Science and Engineering}
 \date{November 27th, 2018}
 \maketitle
@@ -47,6 +48,8 @@ function FCFS(Matrix c):
 function LRJF(Matrix c):
     return mergesort_row(c, row=2, decreasing)
 \end{verbatim}
+
+The software was compiled and run on an Apple MacBook computer.
 
 
 \section{Results}
@@ -123,7 +126,12 @@ LRJF Total Time: 308
 \end{center}
 \end{table}
 
-$TODO$ Talk about finding an optimal solution here.  
+Finding an optimal solution is trivial.
+Because the FCFS and LRJF algorithms are implemented on top of mergesort, the two algorithms are of complexity \texttt{O(nlogn)}.
+The two algorithms can be run against a set of threads, the execution time calculated, and the more efficient schedule selected.
+Due to the nature of the FCFS and LRJF scheduling algorithms, the LASU execution time does not have an effect on the overall schedule.
+The better algorithm is entirely determined by whether the PLJ execution times are unequal or whether the RJ execution times are unequal between threads.
+If both the PLJ execution times and RJ execution times vary between threads, then more complicated scheduling algorithms are necessary to determine the optimal schedule.
 
 
 \section{Conclusions}
